@@ -21,7 +21,7 @@
     <nav id="site-navigation" class="site-nav" aria-label="Navegación principal">
       <a class="active" href="#inicio">Inicio</a><a href="#soluciones">Soluciones</a><a href="#aplicaciones">Aplicaciones</a><a href="#como-funciona">Cómo funciona</a><a href="#membresias">Membresías</a><a href="#nosotros">Nosotros</a><a href="#contacto">Contacto</a>
     </nav>
-    <div class="header-actions"><button class="theme-toggle" id="themeToggle" type="button" aria-label="Activar modo claro" title="Activar modo claro"><i class="fa-solid fa-sun" aria-hidden="true"></i></button><a class="button button-small button-outline" href="#acceder">Acceder <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a></div>
+    <div class="header-actions"><button class="theme-toggle" id="themeToggle" type="button" aria-label="Activar modo claro" title="Activar modo claro"><i class="fa-solid fa-sun" aria-hidden="true"></i></button><button class="button button-small button-outline" id="openAccess" type="button">Acceder <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></button></div>
   </header>
 
   <main>
@@ -39,5 +39,23 @@
     <section id="acceder" class="access-note section-wrap"><i class="fa-solid fa-lock"></i><span>El acceso a las aplicaciones estará disponible próximamente.</span></section>
   </main>
   <footer class="site-footer section-wrap"><a class="brand" href="#inicio"><img class="theme-logo" src="../../../Assets/Logos/ImagotipoClaro.png" alt="Fixelar"></a><p>Software con claridad para negocios que avanzan.</p><span>© 2026 Fixelar</span></footer>
+  <div class="access-modal" id="accessModal" hidden>
+    <div class="access-backdrop" data-close-access></div>
+    <section class="access-dialog" role="dialog" aria-modal="true" aria-labelledby="accessTitle">
+      <button class="access-close" id="closeAccess" type="button" aria-label="Cerrar acceso"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+      <img class="access-logo" src="../../../Assets/Logos/Logo.png" alt="Fixelar">
+      <p class="eyebrow">Acceso a Fixelar</p>
+      <h2 id="accessTitle">Continúa para entrar</h2>
+      <button class="provider-button google-button" id="googleAccess" type="button"><svg class="google-mark" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M21.35 12.27c0-.72-.06-1.41-.18-2.07H12v3.92h5.24a4.48 4.48 0 0 1-1.94 2.94v2.45h3.14c1.84-1.7 2.91-4.2 2.91-7.24Z"/><path fill="#34A853" d="M12 21.69c2.63 0 4.84-.87 6.45-2.37l-3.14-2.45c-.87.58-1.98.92-3.31.92-2.54 0-4.69-1.72-5.46-4.03H3.3v2.53A9.74 9.74 0 0 0 12 21.69Z"/><path fill="#FBBC05" d="M6.54 13.76a5.85 5.85 0 0 1 0-3.52V7.71H3.3a9.76 9.76 0 0 0 0 8.58l3.24-2.53Z"/><path fill="#EA4335" d="M12 6.21c1.43 0 2.71.49 3.72 1.45l2.79-2.79C16.84 3.31 14.63 2.4 12 2.4a9.74 9.74 0 0 0-8.7 5.31l3.24 2.53C7.31 7.93 9.46 6.21 12 6.21Z"/></svg>Continuar con Google</button>
+      <div class="access-divider"><span>o</span></div>
+      <form id="emailAccess" class="email-access">
+        <label for="accessEmail">Correo electrónico</label>
+        <input id="accessEmail" type="email" placeholder="Ingresa tu correo electrónico" autocomplete="email" required>
+        <button class="provider-button email-button" type="submit">Continuar con correo electrónico</button>
+      </form>
+      <p class="access-disclaimer">El acceso a las aplicaciones estará disponible próximamente.</p>
+      <p class="access-feedback" id="accessFeedback" aria-live="polite"></p>
+    </section>
+  </div>
 </body>
 </html>

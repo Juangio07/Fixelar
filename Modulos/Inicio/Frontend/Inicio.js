@@ -37,4 +37,15 @@ document.addEventListener("DOMContentLoaded", () => {
       nav.classList.remove("open");
     }),
   );
+  const modal = document.querySelector("#accessModal");
+  const openAccess = document.querySelector("#openAccess");
+  const closeAccess = document.querySelector("#closeAccess");
+  const feedback = document.querySelector("#accessFeedback");
+  const closeModal = () => { modal.hidden = true; document.body.classList.remove("modal-open"); feedback.textContent = ""; };
+  openAccess?.addEventListener("click", () => { modal.hidden = false; document.querySelector("#accessEmail")?.focus(); });
+  closeAccess?.addEventListener("click", closeModal);
+  modal?.querySelector("[data-close-access]")?.addEventListener("click", closeModal);
+  document.addEventListener("keydown", (event) => { if (event.key === "Escape" && modal && !modal.hidden) closeModal(); });
+  document.querySelector("#googleAccess")?.addEventListener("click", () => { feedback.textContent = "La conexión con Google estará disponible próximamente."; });
+  document.querySelector("#emailAccess")?.addEventListener("submit", (event) => { event.preventDefault(); feedback.textContent = "El acceso por correo estará disponible próximamente."; });
 });

@@ -470,6 +470,30 @@ h2 {
 .site-footer .brand img {
   width: 105px;
 }
+.access-modal[hidden] { display: none; }
+.access-modal { position: fixed; inset: 0; z-index: 30; display: grid; place-items: center; padding: 24px; }
+.access-backdrop { position: absolute; inset: 0; background: rgb(2 10 21 / 72%); backdrop-filter: blur(8px); }
+.access-dialog { position: relative; width: min(100%, 460px); padding: 34px; border: 1px solid var(--web-line); border-radius: 22px; background: var(--web-surface); box-shadow: var(--web-shadow); text-align: center; }
+.access-close { position: absolute; top: 16px; right: 16px; display: grid; place-items: center; width: 32px; height: 32px; border: 1px solid var(--web-line); border-radius: 50%; background: transparent; color: var(--web-muted); cursor: pointer; }
+.access-close:hover { color: var(--web-text); border-color: var(--web-green); }
+.access-logo { width: 48px; height: 48px; object-fit: contain; margin-bottom: 18px; }
+.access-dialog h2 { margin: 10px 0 24px; font-size: 30px; }
+.provider-button { width: 100%; min-height: 50px; border: 0; border-radius: 10px; font: 600 14px "DM Sans", var(--font-family); cursor: pointer; transition: transform .2s, filter .2s; }
+.provider-button:hover { transform: translateY(-2px); filter: brightness(1.04); }
+.google-button { display: flex; align-items: center; justify-content: center; gap: 12px; background: #f0f0f0; color: #151515; }
+.google-mark { width: 20px; height: 20px; display: block; }
+.access-divider { display: flex; align-items: center; gap: 12px; margin: 20px 0; color: var(--web-muted); font-size: 13px; }
+.access-divider::before, .access-divider::after { content: ""; height: 1px; flex: 1; background: var(--web-line); }
+.email-access { text-align: left; }
+.email-access label { display: block; margin-bottom: 7px; color: var(--web-muted); font-size: 12px; }
+.email-access input { width: 100%; height: 50px; padding: 0 15px; border: 1px solid var(--web-line); border-radius: 10px; outline: 0; background: transparent; color: var(--web-text); font: 14px "DM Sans", var(--font-family); }
+.email-access input:focus { border-color: var(--web-green); box-shadow: 0 0 0 3px rgb(98 236 30 / 14%); }
+.email-button { margin-top: 12px; background: var(--web-green); color: #071426; }
+.access-disclaimer { margin: 20px 0 0; color: var(--web-muted); font-size: 11px; line-height: 1.5; }
+.access-feedback { min-height: 18px; margin: 10px 0 0; color: var(--web-green); font-size: 12px; }
+:root[data-theme="light"] .access-dialog { background: #fff; }
+:root[data-theme="light"] .google-button { background: #f1f1f1; }
+:root[data-theme="light"] .access-backdrop { background: rgb(7 20 38 / 38%); }
 @media (max-width: 900px) {
   .site-header {
     gap: 18px;
@@ -553,4 +577,5 @@ h2 {
     gap: 15px;
     padding-block: 28px;
   }
+  .access-dialog { padding: 30px 22px; }
 }
