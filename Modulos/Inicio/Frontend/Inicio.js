@@ -1,5 +1,17 @@
 "use strict";
 document.addEventListener("DOMContentLoaded", () => {
+  const root = document.documentElement;
+  const themeToggle = document.querySelector("#themeToggle");
+  const themeLogos = document.querySelectorAll(".theme-logo");
+  const applyTheme = (theme) => {
+    const light = theme === "light";
+    root.dataset.theme = light ? "light" : "dark";
+    themeLogos.forEach((logo) => { logo.src = light ? "../../../Assets/Logos/ImagotipoOscuro.png" : "../../../Assets/Logos/ImagotipoClaro.png"; });
+    if (themeToggle) { themeToggle.innerHTML = `<i class="fa-solid ${light ? "fa-moon" : "fa-sun"}" aria-hidden="true"></i>`; themeToggle.setAttribute("aria-label", light ? "Activar modo oscuro" : "Activar modo claro"); themeToggle.title = light ? "Activar modo oscuro" : "Activar modo claro"; }
+  };
+  applyTheme(localStorage.getItem("fixelar-theme") || "dark");
+  themeToggle?.addEventListener("click", () => { const next = root.dataset.theme === "light" ? "dark" : "light"; localStorage.setItem("fixelar-theme", next); applyTheme(next); });
+
   const app = window.FIXELAR_APP;
   const grid = document.querySelector("#application-grid");
   if (app?.applications && grid) {
