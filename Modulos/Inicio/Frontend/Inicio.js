@@ -38,6 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ``;
     const cards = [...grid.querySelectorAll(".app-card")];
     let activeCard = 0;
+    let lastCardActivation = 0;
     const updateCarousel = () => {
       cards.forEach((card, index) => {
         let relative = index - activeCard;
@@ -62,8 +63,11 @@ document.addEventListener("DOMContentLoaded", () => {
     };
     const moveCarousel = (direction) => { activeCard = (activeCard + direction + cards.length) % cards.length; updateCarousel(); };
     const activateCard = (card) => {
+      const now = Date.now();
+      if (now - lastCardActivation < 350) return;
       const index = cards.indexOf(card);
       if (index < 0) return;
+      lastCardActivation = now;
       activeCard = index;
       updateCarousel();
       clearInterval(autoRotate);
@@ -114,16 +118,34 @@ document.addEventListener("DOMContentLoaded", () => {
     toggle.setAttribute("aria-expanded", String(!open));
     nav.classList.toggle("open", !open);
   });
+  let navigationRequest = 0;
   const scrollToSection = (selector) => {
     if (selector === "#inicio") {
       window.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
     const target = document.querySelector(selector);
-    if (target) window.scrollTo({ top: Math.max(0, target.getBoundingClientRect().top + window.scrollY - 40), behavior: "smooth" });
+    if (target) {
+      const requestId = ++navigationRequest;
+      target.classList.add("is-visible");
+      const positionSection = async () => {
+        if (document.fonts?.ready) await document.fonts.ready;
+        const imagesReady = Promise.allSettled([...document.images].map((image) => image.complete ? Promise.resolve() : new Promise((resolve) => { image.addEventListener("load", resolve, { once: true }); image.addEventListener("error", resolve, { once: true }); })));
+        await Promise.race([imagesReady, new Promise((resolve) => window.setTimeout(resolve, 300))]);
+        await new Promise((resolve) => window.requestAnimationFrame(resolve));
+        if (requestId !== navigationRequest) return;
+        const headerHeight = document.querySelector(".site-header")?.getBoundingClientRect().height || 78;
+        const firstTitle = target.querySelector(".eyebrow") || target.querySelector("h1, h2, h3") || target;
+        const titleGap = 72;
+        const destination = Math.max(0, Math.round(firstTitle.getBoundingClientRect().top + window.scrollY - headerHeight - titleGap));
+        window.scrollTo({ top: destination, behavior: "auto" });
+      };
+      positionSection();
+    }
   };
   [...(nav?.querySelectorAll("a") || []), ...(document.querySelectorAll('.brand[href="#inicio"]') || [])].forEach((link) =>
     link.addEventListener("click", (event) => {
+      if (event.detail > 1) { event.preventDefault(); return; }
       const selector = link.getAttribute("href");
       if (selector) { event.preventDefault(); scrollToSection(selector); }
       toggle?.setAttribute("aria-expanded", "false");
