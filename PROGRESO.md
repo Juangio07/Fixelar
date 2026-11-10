@@ -8,7 +8,7 @@ El proyecto es una web estática basada en HTML, CSS y JavaScript. No funciona c
 
 ## 2. Estado actual
 
-La web institucional está implementada en la rama `sec` y sincronizada con `origin/sec`.
+La web institucional está implementada en la rama `sec` y sincronizada con `origin/sec`. Se incorporó una primera optimización de posicionamiento y propuesta comercial sin cambiar la identidad visual base.
 
 La entrada principal actual es:
 
@@ -37,6 +37,12 @@ El repositorio no contiene actualmente `package.json`, `package-lock.json` ni `n
 - Font Awesome cargado desde CDN.
 - Logos oficiales utilizados desde `Assets/Logos`.
 - `FixelarBase` verificado sin modificaciones durante las últimas tareas.
+- Propuesta de valor orientada a soluciones tecnológicas, desarrollo web, software, apps, automatizaciones, asesoría e impulso empresarial.
+- Meta title, meta description y palabras clave principales actualizadas en la página de Inicio.
+- Datos estructurados iniciales de tipo `Organization` añadidos en Inicio.
+- Catálogo de servicios generado desde `AppConfig.js`.
+- Animaciones de entrada al hacer scroll mediante `IntersectionObserver`.
+- Soporte para `prefers-reduced-motion`.
 
 ## 4. Funcionalidades en desarrollo
 
@@ -56,6 +62,8 @@ El repositorio no contiene actualmente `package.json`, `package-lock.json` ni `n
 - Definir si las aplicaciones tendrán un acceso común o accesos independientes.
 - Revisar y actualizar `FixelarGlobal.js`, que conserva selectores heredados de Login aunque no se utilizan en la web actual.
 - Realizar una prueba completa en navegador con modo claro, modo oscuro, responsive, navegación, modal y carga de recursos externos.
+- Crear páginas independientes para cada servicio con URLs SEO definitivas.
+- Sustituir la URL relativa del logo en Schema.org por la URL absoluta cuando exista el dominio oficial.
 
 ## 6. Errores conocidos
 
@@ -64,10 +72,11 @@ El repositorio no contiene actualmente `package.json`, `package-lock.json` ni `n
 - No existe un servidor de producción ni una URL definitiva documentada.
 - No hay pruebas automatizadas configuradas después de retirar Node/Electron.
 - Las rutas de recursos de la página están preparadas para la ubicación actual de `Inicio.html`; cualquier cambio de carpeta requiere revisar las rutas relativas.
+- Las páginas individuales de servicios todavía no existen; por ahora los servicios se presentan dentro de Inicio.
 
 ## 7. Últimos avances
 
-Último commit registrado: `bc2c55a Login`.
+Último commit registrado: `3586fc8 docs: add project progress tracking`. Hay cambios posteriores sin commit correspondientes a la optimización SEO y comercial actual.
 
 Cambios recientes registrados:
 
@@ -78,6 +87,10 @@ Cambios recientes registrados:
 - Se fijó la navbar durante el scroll.
 - Se configuró el favicon.
 - Se sustituyó Font Awesome local por CDN y se retiraron las dependencias de Node del proyecto.
+- Se actualizó la propuesta de valor del hero y el contenido de contacto.
+- Se añadió la sección de servicios tecnológicos orientada a SEO.
+- Se añadieron microanimaciones de aparición y accesibilidad para movimiento reducido.
+- Se añadió Schema.org inicial para la organización.
 
 ## 8. Decisiones técnicas
 
@@ -91,6 +104,7 @@ Cambios recientes registrados:
 - La conexión real con Google debe implementarse mediante OAuth/Google Identity Services y validación en backend.
 - No se deben inventar URLs definitivas, APIs, precios, planes ni reglas comerciales.
 - La rama de trabajo actual es `sec`.
+- Los colores y la identidad visual existentes se mantienen como base; los servicios reutilizan tokens y componentes de la web actual.
 
 ## 9. Próximos pasos
 
@@ -102,7 +116,8 @@ Cambios recientes registrados:
 6. Definir y documentar el acceso por correo.
 7. Probar navegación, temas, responsive, accesibilidad y recursos CDN.
 8. Registrar cada cambio posterior en este archivo antes de cerrar la tarea.
+9. Crear `sitemap.xml`, `robots.txt` y canonical cuando se confirme el dominio oficial.
 
 ## 10. Última actualización
 
-**2026-11-09** — Se analizó la estructura actual, la configuración, el historial Git y la implementación de la web. Se creó este registro de continuidad sin modificar archivos de código ni `AGENTS.md`.
+**2026-11-10** — Se aplicó la primera optimización institucional y SEO: nueva propuesta de valor, servicios tecnológicos, metadatos, Schema.org, animaciones sutiles y soporte de movimiento reducido. Se verificaron sintaxis, diff y carga HTTP de la entrada, estilos, scripts y assets.

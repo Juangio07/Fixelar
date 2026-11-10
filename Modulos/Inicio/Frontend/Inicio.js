@@ -13,6 +13,10 @@ document.addEventListener("DOMContentLoaded", () => {
   themeToggle?.addEventListener("click", () => { const next = root.dataset.theme === "light" ? "dark" : "light"; localStorage.setItem("fixelar-theme", next); applyTheme(next); });
 
   const app = window.FIXELAR_APP;
+  const serviceGrid = document.querySelector("#service-grid");
+  if (app?.services && serviceGrid) {
+    serviceGrid.innerHTML = app.services.map((service) => `<article class="service-card"><div class="service-icon"><i class="fa-solid ${service.icon}" aria-hidden="true"></i></div><h3>${service.name}</h3><p>${service.description}</p><a href="#contacto" aria-label="Solicitar ${service.name}">Conocer solución <i class="fa-solid fa-arrow-right"></i></a></article>`).join("");
+  }
   const grid = document.querySelector("#application-grid");
   if (app?.applications && grid) {
     grid.innerHTML =
@@ -37,6 +41,8 @@ document.addEventListener("DOMContentLoaded", () => {
       nav.classList.remove("open");
     }),
   );
+  const revealObserver = new IntersectionObserver((entries) => entries.forEach((entry) => { if (entry.isIntersecting) { entry.target.classList.add("is-visible"); revealObserver.unobserve(entry.target); } }), { threshold: 0.12 });
+  document.querySelectorAll(".reveal").forEach((element) => revealObserver.observe(element));
   const modal = document.querySelector("#accessModal");
   const openAccess = document.querySelector("#openAccess");
   const closeAccess = document.querySelector("#closeAccess");
