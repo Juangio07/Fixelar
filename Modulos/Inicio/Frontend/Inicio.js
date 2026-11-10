@@ -1,5 +1,14 @@
 "use strict";
 document.addEventListener("DOMContentLoaded", () => {
+  const canvas = document.querySelector("#techCanvas");
+  const context = canvas?.getContext("2d");
+  if (canvas && context && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const particles = [];
+    const resizeCanvas = () => { const ratio = Math.min(window.devicePixelRatio || 1, 2); canvas.width = window.innerWidth * ratio; canvas.height = window.innerHeight * ratio; canvas.style.width = `${window.innerWidth}px`; canvas.style.height = `${window.innerHeight}px`; context.setTransform(ratio, 0, 0, ratio, 0, 0); };
+    const createParticles = () => { particles.length = 0; const total = Math.min(70, Math.max(28, Math.floor(window.innerWidth / 20))); for (let index = 0; index < total; index += 1) particles.push({ x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight, vx: (Math.random() - .5) * .16, vy: (Math.random() - .5) * .16, size: Math.random() * 1.5 + .5 }); };
+    const drawParticles = () => { context.clearRect(0, 0, window.innerWidth, window.innerHeight); particles.forEach((particle, index) => { particle.x += particle.vx; particle.y += particle.vy; if (particle.x < -10 || particle.x > window.innerWidth + 10) particle.vx *= -1; if (particle.y < -10 || particle.y > window.innerHeight + 10) particle.vy *= -1; context.fillStyle = "rgba(98,236,30,.48)"; context.beginPath(); context.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2); context.fill(); particles.slice(index + 1).forEach((other) => { const dx = particle.x - other.x; const dy = particle.y - other.y; const distance = Math.hypot(dx, dy); if (distance < 125) { context.strokeStyle = `rgba(98,236,30,${.12 * (1 - distance / 125)})`; context.lineWidth = .6; context.beginPath(); context.moveTo(particle.x, particle.y); context.lineTo(other.x, other.y); context.stroke(); } }); }); requestAnimationFrame(drawParticles); };
+    resizeCanvas(); createParticles(); drawParticles(); window.addEventListener("resize", () => { resizeCanvas(); createParticles(); }, { passive: true });
+  }
   const root = document.documentElement;
   const themeToggle = document.querySelector("#themeToggle");
   const themeLogos = document.querySelectorAll(".theme-logo");
@@ -15,18 +24,85 @@ document.addEventListener("DOMContentLoaded", () => {
   const app = window.FIXELAR_APP;
   const serviceGrid = document.querySelector("#service-grid");
   if (app?.services && serviceGrid) {
-    serviceGrid.innerHTML = app.services.map((service) => `<article class="service-card"><div class="service-icon"><i class="fa-solid ${service.icon}" aria-hidden="true"></i></div><h3>${service.name}</h3><p>${service.description}</p><a href="#contacto" aria-label="Solicitar ${service.name}">Conocer solución <i class="fa-solid fa-arrow-right"></i></a></article>`).join("");
+    serviceGrid.innerHTML = app.services.map((service) => `<article class="service-card interactive-card"><div class="service-icon"><i class="fa-solid ${service.icon}" aria-hidden="true"></i></div><h3>${service.name}</h3><p>${service.description}</p><a href="#contacto" aria-label="Solicitar ${service.name}">Conocer solución <i class="fa-solid fa-arrow-right"></i></a></article>`).join("");
   }
   const grid = document.querySelector("#application-grid");
   if (app?.applications && grid) {
     grid.innerHTML =
       app.applications
         .map(
-          (item) =>
-            `<article class="app-card" style="--product-accent:${item.accent}"><div class="app-icon"><i class="fa-solid ${item.icon}" aria-hidden="true"></i></div><p class="eyebrow">${item.category}</p><h3>${item.name}</h3><p>${item.description}</p><a href="#contacto" aria-label="Conocer más sobre ${item.name}">Conocer más <i class="fa-solid fa-arrow-right"></i></a></article>`,
+          (item, index) =>
+            `<article class="app-card interactive-card" style="--product-accent:${item.accent};--card-index:${index}"><div class="app-icon">${item.logo ? `<img src="${item.logo}" alt="Logo de ${item.name}" loading="lazy">` : `<i class="fa-solid ${item.icon}" aria-hidden="true"></i>`}</div><p class="eyebrow">${item.category}</p><h3>${item.name}</h3><p>${item.description}</p><a href="#contacto" aria-label="Conocer más sobre ${item.name}">Conocer más <i class="fa-solid fa-arrow-right"></i></a></article>`,
         )
         .join("") +
-      `<article class="app-card future"><div class="app-icon"><i class="fa-solid fa-plus" aria-hidden="true"></i></div><p class="eyebrow">En exploración</p><h3>Futuras aplicaciones</h3><p>Nuevas soluciones para más formas de trabajar y avanzar.</p><a href="#contacto">Cuéntanos tu idea <i class="fa-solid fa-arrow-right"></i></a></article>`;
+      ``;
+    const cards = [...grid.querySelectorAll(".app-card")];
+    let activeCard = 0;
+    const updateCarousel = () => {
+      cards.forEach((card, index) => {
+        let relative = index - activeCard;
+        if (relative > Math.floor(cards.length / 2)) relative -= cards.length;
+        if (relative < -Math.floor(cards.length / 2)) relative += cards.length;
+        const visible = Math.abs(relative) <= 2;
+        const distance = Math.abs(relative);
+        card.classList.toggle("is-active", visible && relative === 0);
+        card.classList.toggle("is-left", visible && relative < 0);
+        card.classList.toggle("is-right", visible && relative > 0);
+        card.classList.toggle("is-hidden", !visible);
+        card.setAttribute("aria-hidden", String(!visible));
+        card.style.setProperty("--fan-offset", `${relative * 145}px`);
+        card.style.setProperty("--fan-angle", `${relative * 9}deg`);
+        card.style.setProperty("--fan-scale", relative === 0 ? "1.08" : `${Math.max(.72, .94 - distance * .055)}`);
+        card.style.setProperty("--fan-lift", `${Math.min(distance, 2) * 10}px`);
+        card.style.setProperty("--fan-z", `${20 - distance}`);
+      });
+    };
+    const moveCarousel = (direction) => { activeCard = (activeCard + direction + cards.length) % cards.length; updateCarousel(); };
+    const activateCard = (card) => {
+      const index = cards.indexOf(card);
+      if (index < 0) return;
+      activeCard = index;
+      updateCarousel();
+      clearInterval(autoRotate);
+      autoRotate = setInterval(() => moveCarousel(1), 4200);
+    };
+    document.querySelector("#carouselPrev")?.addEventListener("click", () => moveCarousel(-1));
+    document.querySelector("#carouselNext")?.addEventListener("click", () => moveCarousel(1));
+    let autoRotate = setInterval(() => moveCarousel(1), 4200);
+    const carousel = document.querySelector(".application-carousel");
+    carousel?.addEventListener("mouseenter", () => clearInterval(autoRotate));
+    carousel?.addEventListener("mouseleave", () => { autoRotate = setInterval(() => moveCarousel(1), 4200); });
+    let dragStart = null;
+    let dragCard = null;
+    let dragDistance = 0;
+    let ignoreClickUntil = 0;
+    grid.addEventListener("pointerdown", (event) => {
+      dragStart = event.clientX;
+      dragDistance = 0;
+      dragCard = event.target.closest(".app-card");
+    });
+    grid.addEventListener("pointermove", (event) => {
+      if (dragStart !== null) dragDistance = Math.abs(event.clientX - dragStart);
+    });
+    grid.addEventListener("pointerup", (event) => {
+      if (dragStart === null) return;
+      const distance = event.clientX - dragStart;
+      if (Math.abs(distance) > 45) {
+        ignoreClickUntil = Date.now() + 250;
+        moveCarousel(distance < 0 ? 1 : -1);
+      }
+      else if (dragCard) activateCard(dragCard);
+      dragStart = null;
+      dragCard = null;
+      dragDistance = 0;
+    });
+    grid.addEventListener("pointercancel", () => { dragStart = null; });
+    grid.addEventListener("click", (event) => {
+      if (Date.now() < ignoreClickUntil || dragDistance > 10) return;
+      const card = event.target.closest(".app-card");
+      if (card) activateCard(card);
+    });
+    updateCarousel();
   }
   const toggle = document.querySelector(".menu-toggle");
   const nav = document.querySelector(".site-nav");
@@ -36,13 +112,41 @@ document.addEventListener("DOMContentLoaded", () => {
     nav.classList.toggle("open", !open);
   });
   nav?.querySelectorAll("a").forEach((link) =>
-    link.addEventListener("click", () => {
+    link.addEventListener("click", (event) => {
+      const target = document.querySelector(link.getAttribute("href"));
+      if (target) { event.preventDefault(); window.scrollTo({ top: Math.max(0, target.getBoundingClientRect().top + window.scrollY - 40), behavior: "smooth" }); }
       toggle?.setAttribute("aria-expanded", "false");
       nav.classList.remove("open");
     }),
   );
+  const navSections = [...document.querySelectorAll("main > section[id]")];
+  const navLinks = [...document.querySelectorAll(".site-nav a")];
+  const activeSectionObserver = new IntersectionObserver((entries) => {
+    const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+    if (!visible) return;
+    navLinks.forEach((link) => link.classList.toggle("active", link.getAttribute("href") === `#${visible.target.id}`));
+  }, { rootMargin: "-96px 0px -48% 0px", threshold: [0.08, 0.25, 0.5] });
+  navSections.forEach((section) => activeSectionObserver.observe(section));
   const revealObserver = new IntersectionObserver((entries) => entries.forEach((entry) => { if (entry.isIntersecting) { entry.target.classList.add("is-visible"); revealObserver.unobserve(entry.target); } }), { threshold: 0.12 });
   document.querySelectorAll(".reveal").forEach((element) => revealObserver.observe(element));
+  const canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  if (canHover) {
+    document.querySelectorAll(".interactive-card").forEach((card) => {
+      card.addEventListener("pointermove", (event) => {
+        const bounds = card.getBoundingClientRect();
+        const x = (event.clientX - bounds.left) / bounds.width;
+        const y = (event.clientY - bounds.top) / bounds.height;
+        card.style.setProperty("--rotate-x", `${(0.5 - y) * 5}deg`);
+        card.style.setProperty("--rotate-y", `${(x - 0.5) * 5}deg`);
+        card.style.setProperty("--pointer-x", `${x * 100}%`);
+        card.style.setProperty("--pointer-y", `${y * 100}%`);
+      });
+      card.addEventListener("pointerleave", () => { card.style.setProperty("--rotate-x", "0deg"); card.style.setProperty("--rotate-y", "0deg"); });
+    });
+    const heroVisual = document.querySelector(".hero-visual");
+    heroVisual?.addEventListener("pointermove", (event) => { const bounds = heroVisual.getBoundingClientRect(); heroVisual.style.setProperty("--hero-x", `${(event.clientX - bounds.left) / bounds.width - 0.5}`); heroVisual.style.setProperty("--hero-y", `${(event.clientY - bounds.top) / bounds.height - 0.5}`); });
+    heroVisual?.addEventListener("pointerleave", () => { heroVisual.style.setProperty("--hero-x", "0"); heroVisual.style.setProperty("--hero-y", "0"); });
+  }
   const modal = document.querySelector("#accessModal");
   const openAccess = document.querySelector("#openAccess");
   const closeAccess = document.querySelector("#closeAccess");

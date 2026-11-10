@@ -8,7 +8,7 @@ El proyecto es una web estática basada en HTML, CSS y JavaScript. No funciona c
 
 ## 2. Estado actual
 
-La web institucional está implementada en la rama `sec` y sincronizada con `origin/sec`. Se incorporó una primera optimización de posicionamiento y propuesta comercial sin cambiar la identidad visual base.
+La web institucional está implementada en la rama `ter` y sincronizada con `origin/ter`. Se incorporó una primera optimización de posicionamiento y propuesta comercial sin cambiar la identidad visual base.
 
 La entrada principal actual es:
 
@@ -43,6 +43,14 @@ El repositorio no contiene actualmente `package.json`, `package-lock.json` ni `n
 - Catálogo de servicios generado desde `AppConfig.js`.
 - Animaciones de entrada al hacer scroll mediante `IntersectionObserver`.
 - Soporte para `prefers-reduced-motion`.
+- Fondo tecnológico con cuadrícula sutil y luz ambiental animada.
+- Movimiento parallax ligero en la tarjeta principal del hero.
+- Efecto tilt 3D y brillo radial interactivo en cards de servicios y aplicaciones.
+- Microinteracciones de elevación y sombra en los pasos del proceso.
+- Fondo de partículas conectadas mediante Canvas para reforzar la sensación de red tecnológica.
+- Anillos orbitales, escaneo de luz y señal animada en el hero.
+- Parallax y respuesta al puntero en la composición principal.
+- Sección de aplicaciones convertida en un carrusel horizontal tipo abanico permanente: todas las cards se distribuyen a los lados y la card central queda destacada.
 
 ## 4. Funcionalidades en desarrollo
 
@@ -105,6 +113,20 @@ Cambios recientes registrados:
 - No se deben inventar URLs definitivas, APIs, precios, planes ni reglas comerciales.
 - La rama de trabajo actual es `sec`.
 - Los colores y la identidad visual existentes se mantienen como base; los servicios reutilizan tokens y componentes de la web actual.
+- Las interacciones se implementan con CSS y JavaScript nativo, sin librerías adicionales para preservar rendimiento.
+- Los efectos de puntero se activan únicamente en dispositivos con hover y puntero preciso; no se fuerzan en móvil.
+- El Canvas y las animaciones se desactivan cuando el usuario activa `prefers-reduced-motion`.
+- Las cinco apps principales permanecen visibles en un abanico fijo; la card central cambia automáticamente y también puede cambiarse con botones, arrastre o swipe. El efecto no depende del scroll.
+- El carrusel de aplicaciones adapta su tamaño al móvil y mantiene cinco cards como máximo.
+- Las cards de aplicaciones tienen ahora tratamiento visual de cartas de producto: fondos degradados por app, iconos amplios, patrones, bordes redondeados y mayor contraste para la card protagonista.
+- La distribución del abanico es circular: siempre se muestran dos cards a la izquierda, una protagonista en el centro y dos cards a la derecha.
+- Los efectos de fondo ahora tienen una variante visible para modo claro: partículas con mezcla multiplicada, cuadrícula verde/azul y halo azul ajustado al fondo claro.
+- Se eliminó la sombra inferior y el resplandor fuerte de las cards de aplicaciones para integrarlas de forma más limpia con la página.
+- La navegación interna ahora utiliza scroll suave, separación para la navbar fija y actualización automática del enlace activo según la sección visible.
+- Los clics del menú calculan explícitamente la posición final descontando la navbar; la sección de aplicaciones redujo sus espacios para mostrar encabezado y abanico sin cortes al llegar.
+- El desplazamiento de navegación se ajustó para dejar un margen visual de 40px antes del contenido de cada sección, evitando que los títulos queden pegados o tapados.
+- El texto de ayuda del carrusel se separó y quedó ubicado claramente debajo de las cards.
+- Cada card de aplicación puede seleccionarse directamente y pasa inmediatamente al frente como protagonista.
 
 ## 9. Próximos pasos
 
@@ -120,4 +142,4 @@ Cambios recientes registrados:
 
 ## 10. Última actualización
 
-**2026-11-10** — Se aplicó la primera optimización institucional y SEO: nueva propuesta de valor, servicios tecnológicos, metadatos, Schema.org, animaciones sutiles y soporte de movimiento reducido. Se verificaron sintaxis, diff y carga HTTP de la entrada, estilos, scripts y assets.
+**2026-11-10** — Se corrigió la selección directa de las cards del abanico en `Modulos/Inicio/Frontend/Inicio.js`. El click y el pointerup de una card ahora la convierten en protagonista, mientras que el arrastre horizontal continúa cambiando la secuencia sin activar accidentalmente una card. Se incorporaron los logos reales de Nodix, Kentro y MiPlata desde `Assets/Logos`, y se añadieron Agro y Vet como cards de prueba con iconos. El carrusel ahora limita visualmente el abanico a cinco cards: una central, dos a cada lado y las restantes aparecen al avanzar. Se verificaron sintaxis, rutas de assets y diff.
