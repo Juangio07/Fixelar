@@ -21,11 +21,13 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 40px;
+  overscroll-behavior-y: none;
   background: var(--web-bg);
 }
 body {
   min-height: 100%;
   padding-top: 78px;
+  overscroll-behavior-y: none;
   background:
     radial-gradient(circle at 77% 10%, rgb(18 71 79 / 35%), transparent 32rem),
     var(--web-bg);
@@ -344,7 +346,7 @@ h2 {
   gap: 15px;
 }
 .application-carousel { position: relative; display: flex; align-items: center; gap: 18px; min-height: 370px; margin-inline: -40px; }
-.application-viewport { width: 100%; height: 350px; overflow: visible; padding: 22px 0 0; }
+.application-viewport { width: 100%; height: 350px; overflow: visible; padding: 22px 0 0; perspective: 1250px; perspective-origin: center center; }
 .application-grid { position: relative; width: 100%; height: 100%; touch-action: pan-y; cursor: grab; }
 .application-grid:active { cursor: grabbing; }
 .carousel-button { flex: 0 0 42px; z-index: 2; display: grid; place-items: center; width: 42px; height: 42px; border: 1px solid var(--web-line); border-radius: 50%; background: var(--web-surface); color: var(--web-text); cursor: pointer; transition: transform .2s, border-color .2s, color .2s; }
@@ -375,6 +377,22 @@ h2 {
 .applications .app-card .app-icon { position: relative; z-index: 2; display: grid; place-items: center; width: 64px; height: 64px; margin-bottom: 42px; border: 1px solid rgb(255 255 255 / 28%); border-radius: 18px; background: rgb(255 255 255 / 18%); color: currentColor; font-size: 29px; box-shadow: 0 10px 25px rgb(0 0 0 / 12%); overflow: hidden; }
 .applications .app-card .app-icon img { display: block; width: 100%; height: 100%; object-fit: contain; padding: 7px; }
 .applications .app-card.is-hidden { visibility: hidden; pointer-events: none; opacity: 0; }
+.applications .app-card { backface-visibility: hidden; will-change: transform, opacity, filter; }
+.applications:not(.is-visible) .app-card:not(.is-hidden) {
+  opacity: 0;
+  filter: blur(6px) saturate(1.45) brightness(1.2);
+  transform: translate3d(-50%, -50%, var(--orbit-depth, -320px)) rotateZ(var(--orbit-angle, 0deg)) translateX(var(--orbit-radius, 260px)) rotateZ(calc(var(--orbit-angle, 0deg) * -1)) scale(.66);
+  transform-origin: center center;
+}
+.applications.is-visible .app-card:not(.is-hidden) {
+  transition-delay: calc(var(--card-index, 0) * 55ms);
+}
+@media (prefers-reduced-motion: reduce) {
+  .applications:not(.is-visible) .app-card:not(.is-hidden) {
+    filter: none;
+    transform: translate(calc(-50% + var(--fan-offset, 0px)), calc(-50% - var(--fan-lift, 0px))) rotate(var(--fan-angle, 0deg)) scale(var(--fan-scale, .85));
+  }
+}
 .applications .app-card .eyebrow { position: relative; z-index: 2; color: currentColor; opacity: .78; }
 .applications .app-card h3, .applications .app-card > p:not(.eyebrow), .applications .app-card a { position: relative; z-index: 2; color: currentColor; }
 .applications .app-card h3 { font-size: 27px; }
@@ -588,10 +606,10 @@ h2 {
   .service-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (min-width: 701px) {
-  .applications .app-card { position: absolute; left: 50%; top: 50%; width: 260px; min-height: 300px; margin: 0; opacity: .62; filter: saturate(.72); transform: translate(calc(-50% + var(--fan-offset, 0px)), calc(-50% - var(--fan-lift, 0px))) rotate(var(--fan-angle, 0deg)) scale(var(--fan-scale, .85)); transform-origin: center bottom; z-index: var(--fan-z, 1); transition: transform .65s cubic-bezier(.22, .8, .25, 1), opacity .65s ease, filter .65s ease, box-shadow .65s ease; }
+  .applications .app-card { position: absolute; left: 50%; top: 50%; width: 260px; min-height: 300px; margin: 0; opacity: .62; filter: saturate(.72); transform: translate3d(calc(-50% + var(--fan-offset, 0px)), calc(-50% - var(--fan-lift, 0px)), 0) rotate(var(--fan-angle, 0deg)) scale(var(--fan-scale, .85)); transform-origin: center bottom; z-index: var(--fan-z, 1); transition: transform .58s cubic-bezier(.22, .95, .28, 1), opacity .46s ease-out, filter .5s ease-out, box-shadow .45s ease; }
   .applications .app-card.is-active { opacity: 1; filter: saturate(1.15); border-color: rgb(255 255 255 / 48%); box-shadow: none; }
   .applications .app-card:hover { opacity: .9; }
-  .applications .app-card.is-active:hover { transform: translate(-50%, calc(-50% - 8px)) rotate(0deg) scale(1.12); }
+  .applications .app-card.is-active:hover { transform: translate3d(-50%, calc(-50% - 8px), 0) rotate(0deg) scale(1.12); }
 }
 @media (max-width: 700px) {
   .section-wrap {
@@ -655,7 +673,7 @@ h2 {
   .application-carousel { position: relative; top: auto; min-height: 360px; }
   .carousel-button { flex-basis: 36px; width: 36px; height: 36px; }
   .application-viewport { height: 330px; padding: 16px 0 0; }
-  .applications .app-card { position: absolute; left: 50%; top: 50%; width: min(68vw, 260px); min-height: 270px; margin: 0; opacity: .52; filter: saturate(.7); transform: translate(calc(-50% + var(--fan-offset, 0px)), calc(-50% - var(--fan-lift, 0px))) rotate(var(--fan-angle, 0deg)) scale(var(--fan-scale, .78)); transform-origin: center bottom; z-index: var(--fan-z, 1); transition: transform .6s ease, opacity .6s ease, filter .6s ease; }
+  .applications .app-card { position: absolute; left: 50%; top: 50%; width: min(68vw, 260px); min-height: 270px; margin: 0; opacity: .52; filter: saturate(.7); transform: translate3d(calc(-50% + var(--fan-offset, 0px)), calc(-50% - var(--fan-lift, 0px)), 0) rotate(var(--fan-angle, 0deg)) scale(var(--fan-scale, .78)); transform-origin: center bottom; z-index: var(--fan-z, 1); transition: transform .5s cubic-bezier(.22, .95, .28, 1), opacity .42s ease-out, filter .48s ease-out; }
   .applications .app-card.is-active { opacity: 1; filter: saturate(1.1); transform: translate(-50%, -50%) rotate(0deg) scale(1); }
   .about {
     grid-template-columns: 1fr;

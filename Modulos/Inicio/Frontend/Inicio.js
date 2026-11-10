@@ -55,6 +55,9 @@ document.addEventListener("DOMContentLoaded", () => {
         card.style.setProperty("--fan-scale", relative === 0 ? "1.08" : `${Math.max(.72, .94 - distance * .055)}`);
         card.style.setProperty("--fan-lift", `${Math.min(distance, 2) * 10}px`);
         card.style.setProperty("--fan-z", `${20 - distance}`);
+        card.style.setProperty("--orbit-angle", `${relative * 34}deg`);
+        card.style.setProperty("--orbit-radius", `${relative === 0 ? 0 : 270 + distance * 24}px`);
+        card.style.setProperty("--orbit-depth", `${-260 - distance * 70}px`);
       });
     };
     const moveCarousel = (direction) => { activeCard = (activeCard + direction + cards.length) % cards.length; updateCarousel(); };
@@ -111,12 +114,20 @@ document.addEventListener("DOMContentLoaded", () => {
     toggle.setAttribute("aria-expanded", String(!open));
     nav.classList.toggle("open", !open);
   });
-  nav?.querySelectorAll("a").forEach((link) =>
+  const scrollToSection = (selector) => {
+    if (selector === "#inicio") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+    const target = document.querySelector(selector);
+    if (target) window.scrollTo({ top: Math.max(0, target.getBoundingClientRect().top + window.scrollY - 40), behavior: "smooth" });
+  };
+  [...(nav?.querySelectorAll("a") || []), ...(document.querySelectorAll('.brand[href="#inicio"]') || [])].forEach((link) =>
     link.addEventListener("click", (event) => {
-      const target = document.querySelector(link.getAttribute("href"));
-      if (target) { event.preventDefault(); window.scrollTo({ top: Math.max(0, target.getBoundingClientRect().top + window.scrollY - 40), behavior: "smooth" }); }
+      const selector = link.getAttribute("href");
+      if (selector) { event.preventDefault(); scrollToSection(selector); }
       toggle?.setAttribute("aria-expanded", "false");
-      nav.classList.remove("open");
+      nav?.classList.remove("open");
     }),
   );
   const navSections = [...document.querySelectorAll("main > section[id]")];
