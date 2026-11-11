@@ -612,8 +612,8 @@ h2 {
 @media (min-width: 701px) {
   .applications .app-card { position: absolute; left: 50%; top: 50%; width: 260px; min-height: 300px; margin: 0; opacity: .62; filter: saturate(.72); transform: translate3d(calc(-50% + var(--fan-offset, 0px)), calc(-50% - var(--fan-lift, 0px)), 0) rotate(var(--fan-angle, 0deg)) scale(var(--fan-scale, .85)); transform-origin: center bottom; z-index: var(--fan-z, 1); transition: transform .58s cubic-bezier(.22, .95, .28, 1), opacity .46s ease-out, filter .5s ease-out, box-shadow .45s ease; }
   .applications .app-card.is-active { opacity: 1; filter: saturate(1.15); border-color: rgb(255 255 255 / 48%); box-shadow: none; }
-  .applications .app-card:hover { opacity: .9; }
-  .applications .app-card.is-active:hover { transform: translate3d(-50%, calc(-50% - 8px), 0) rotate(0deg) scale(1.12); }
+  .applications .app-card:hover { opacity: .9; transform: translate3d(calc(-50% + var(--fan-offset, 0px)), calc(-50% - var(--fan-lift, 0px)), 0) rotate(var(--fan-angle, 0deg)) scale(var(--fan-scale, .85)); }
+  .applications .app-card.is-active:hover { transform: translate3d(-50%, -50%, 0) rotate(0deg) scale(1.08); }
 }
 @media (max-width: 700px) {
   .section-wrap {
@@ -680,6 +680,8 @@ h2 {
   .application-viewport { height: 330px; padding: 16px 0 0; }
   .applications .app-card { position: absolute; left: 50%; top: 50%; width: min(68vw, 260px); min-height: 270px; margin: 0; opacity: .52; filter: saturate(.7); transform: translate3d(calc(-50% + var(--fan-offset, 0px)), calc(-50% - var(--fan-lift, 0px)), 0) rotate(var(--fan-angle, 0deg)) scale(var(--fan-scale, .78)); transform-origin: center bottom; z-index: var(--fan-z, 1); transition: transform .5s cubic-bezier(.22, .95, .28, 1), opacity .42s ease-out, filter .48s ease-out; }
   .applications .app-card.is-active { opacity: 1; filter: saturate(1.1); transform: translate(-50%, -50%) rotate(0deg) scale(1); }
+  .applications .app-card:hover { transform: translate3d(calc(-50% + var(--fan-offset, 0px)), calc(-50% - var(--fan-lift, 0px)), 0) rotate(var(--fan-angle, 0deg)) scale(var(--fan-scale, .78)); }
+  .applications .app-card.is-active:hover { transform: translate3d(-50%, -50%, 0) rotate(0deg) scale(1); }
   .about {
     grid-template-columns: 1fr;
     gap: 40px;

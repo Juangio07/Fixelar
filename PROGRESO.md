@@ -142,6 +142,10 @@ Cambios recientes registrados:
 
 ## 10. Última actualización
 
+**2026-11-10** — Se suavizó la transición del abanico de aplicaciones. Las reglas `:hover` ya no reemplazan el `transform` de cada posición, evitando que una tarjeta primero suba y luego baje al cambiar de lugar. La elevación, rotación, escala y desplazamiento ahora se interpolan dentro de una sola trayectoria continua en escritorio y móvil. Se actualizó `Inicio.css` a `20261110-41`.
+
+**2026-11-10** — Se aseguró que la web abra siempre en la posición inicial de Inicio cuando se accede sin hash, evitando que el navegador restaure una posición de scroll anterior. Se actualizó `Inicio.js` a `20261110-08`; la distribución visual del hero se mantiene sin cambios.
+
 **2026-11-10** — Se reforzó el tratamiento holográfico de la card principal en modo claro: transparencia azul, borde luminoso, brillo exterior, marco interno y escáner con acentos azul/verde. El diseño y la composición se mantienen iguales al modo oscuro. Se actualizó `Inicio.css` a `20261110-40`.
 
 **2026-11-10** — Se corrigió la causa del cambio de fondo visible al terminar la altura del viewport: `Global.css` establecía `body { height: 100% }`, haciendo que los degradados no cubrieran todo el documento. `Inicio.css` ahora establece `body { height: auto; min-height: 100% }` y conserva los fondos, partículas y efectos holográficos durante todo el scroll. Se actualizó la versión de estilos a `Inicio.css?v=20261110-39`.
