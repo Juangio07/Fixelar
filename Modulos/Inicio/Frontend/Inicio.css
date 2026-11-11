@@ -131,7 +131,13 @@ main > section[id] { scroll-margin-top: 40px; }
   color: #071426;
 }
 :root[data-theme="light"] .site-header { background: rgb(244 248 252 / 88%); }
-:root[data-theme="light"] .hero-card { background: linear-gradient(140deg, rgb(255 255 255 / 95%), rgb(232 242 250 / 96%)); }
+:root[data-theme="light"] .hero-card {
+  border-color: rgb(37 99 235 / 42%);
+  background: linear-gradient(145deg, rgb(235 249 255 / 78%), rgb(211 232 247 / 68%));
+  box-shadow: 0 0 28px rgb(37 99 235 / 20%), 0 0 64px rgb(74 202 255 / 18%), inset 0 0 30px rgb(98 236 30 / 10%);
+}
+:root[data-theme="light"] .hero-card::before { border-color: rgb(37 99 235 / 34%); background: linear-gradient(135deg, transparent 20%, rgb(255 255 255 / 42%), transparent 78%); opacity: .95; }
+:root[data-theme="light"] .hero-card::after { background: linear-gradient(90deg, transparent, rgb(98 236 30 / 35%), var(--web-green), rgb(37 99 235 / 92%), transparent); box-shadow: 0 0 10px var(--web-green), 0 0 26px rgb(37 99 235 / 75%); }
 :root[data-theme="light"] .steps article { background: linear-gradient(180deg, rgb(234 242 250 / 85%), transparent); }
 :root[data-theme="light"] .contact { background: radial-gradient(circle at 50% 0, rgb(98 236 30 / 17%), transparent 55%), var(--web-surface); }
 :root[data-theme="light"] .menu-toggle { color: var(--web-text); }

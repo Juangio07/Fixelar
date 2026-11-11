@@ -142,6 +142,8 @@ Cambios recientes registrados:
 
 ## 10. Última actualización
 
+**2026-11-10** — Se reforzó el tratamiento holográfico de la card principal en modo claro: transparencia azul, borde luminoso, brillo exterior, marco interno y escáner con acentos azul/verde. El diseño y la composición se mantienen iguales al modo oscuro. Se actualizó `Inicio.css` a `20261110-40`.
+
 **2026-11-10** — Se corrigió la causa del cambio de fondo visible al terminar la altura del viewport: `Global.css` establecía `body { height: 100% }`, haciendo que los degradados no cubrieran todo el documento. `Inicio.css` ahora establece `body { height: auto; min-height: 100% }` y conserva los fondos, partículas y efectos holográficos durante todo el scroll. Se actualizó la versión de estilos a `Inicio.css?v=20261110-39`.
 
 **2026-11-10** — Se suavizó la transición inferior del hero haciendo transparentes `main` y sus secciones, evitando que aparezca un borde horizontal entre Inicio y el contenido siguiente. Se mantuvieron los degradados globales, partículas, escáner y efectos holográficos. Se actualizó la versión de `Inicio.css` a `20261110-38`.
