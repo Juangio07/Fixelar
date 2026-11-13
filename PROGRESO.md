@@ -142,6 +142,22 @@ Cambios recientes registrados:
 
 ## 10. Última actualización
 
+**2026-11-13** — Se eliminó el emoji del mensaje inicial de WhatsApp porque algunos clientes lo mostraban como un rombo por incompatibilidad de codificación. El mensaje ahora usa texto limpio y se reforzó la visibilidad de los iconos del botón flotante. Se actualizó `Inicio.css` a `20261113-46`.
+
+**2026-11-13** — Se mejoró el mensaje inicial de WhatsApp del botón flotante para que sea más cercano, profesional y orientado a conocer las soluciones de Fixelar y su aplicación al negocio. Se actualizó la versión a `Inicio.css?v=20261113-45`.
+
+**2026-11-13** — Se configuraron los destinos reales del botón flotante: WhatsApp apunta al número `3216523359` con prefijo de Colombia y mensaje inicial, e Instagram apunta al perfil `fixelar1` proporcionado. Se actualizó la versión de estilos a `20261113-44` para refrescar la página.
+
+**2026-11-13** — Se añadió un botón flotante fijo en la esquina inferior derecha usando `Assets/Logos/Flotante.png`. Al pulsarlo abre una card de contacto con accesos a WhatsApp e Instagram, cierre al hacer click fuera o pulsar Escape, estados accesibles y adaptación para modo claro. Las URLs actuales son genéricas porque todavía no existe un número de WhatsApp ni usuario oficial documentado; deben sustituirse antes de producción.
+
+**2026-11-13** — Se ajustó la navegación activa para que `Contacto` permanezca resaltado al recorrer también el aviso de acceso y el footer, ya que esas áreas forman parte del cierre de contacto institucional. Se actualizó `Inicio.js` a `20261110-11`.
+
+**2026-11-13** — Se corrigió nuevamente el cálculo del enlace activo del navbar. Ahora se selecciona la última sección cuyo inicio ya pasó el marcador visual, evitando que el estado quede pegado en una sección anterior o se pierda en los espacios entre contenidos. También se mantiene la selección de la última sección al llegar al final de la página. Se actualizó `Inicio.js` a `20261110-10`.
+
+**2026-11-13** — Se corrigió el resaltado del navbar durante el scroll. Ahora la sección activa se determina por la sección que ocupa el marcador visual bajo la navbar, con actualización sincronizada mediante `requestAnimationFrame`, además de contemplar el final de la página y cambios de tamaño. Se actualizó `Inicio.js` a `20261110-09`.
+
+**2026-11-13** — Se corrigió el halo amarillento que se percibía debajo del abanico de Aplicaciones. La atmósfera de fondo de `.applications` ahora utiliza únicamente tonos azules/cian con menor intensidad y desenfoque suave, conservando las cards y su movimiento. Se actualizó `Inicio.css` a `20261110-42`.
+
 **2026-11-10** — Se suavizó la transición del abanico de aplicaciones. Las reglas `:hover` ya no reemplazan el `transform` de cada posición, evitando que una tarjeta primero suba y luego baje al cambiar de lugar. La elevación, rotación, escala y desplazamiento ahora se interpolan dentro de una sola trayectoria continua en escritorio y móvil. Se actualizó `Inicio.css` a `20261110-41`.
 
 **2026-11-10** — Se aseguró que la web abra siempre en la posición inicial de Inicio cuando se accede sin hash, evitando que el navegador restaure una posición de scroll anterior. Se actualizó `Inicio.js` a `20261110-08`; la distribución visual del hero se mantiene sin cambios.

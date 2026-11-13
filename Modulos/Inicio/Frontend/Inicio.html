@@ -11,10 +11,10 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
   <link rel="stylesheet" href="../../../Shared/Css/Variables.css">
   <link rel="stylesheet" href="../../../Shared/Css/Global.css">
-  <link rel="stylesheet" href="Inicio.css?v=20261110-41">
+  <link rel="stylesheet" href="Inicio.css?v=20261113-46">
   <script defer src="../../../Shared/Config/AppConfig.js"></script>
   <script defer src="../../../Shared/Config/FixelarGlobal.js"></script>
-  <script defer src="Inicio.js?v=20261110-08"></script>
+  <script defer src="Inicio.js?v=20261113-12"></script>
 </head>
 <body>
   <canvas id="techCanvas" class="tech-canvas" aria-hidden="true"></canvas>
@@ -43,6 +43,24 @@
     <section id="acceder" class="access-note section-wrap"><i class="fa-solid fa-lock"></i><span>El acceso a las aplicaciones estará disponible próximamente.</span></section>
   </main>
   <footer class="site-footer section-wrap"><a class="brand" href="#inicio"><img class="theme-logo" src="../../../Assets/Logos/ImagotipoClaro.png" alt="Fixelar"></a><p>Software con claridad para negocios que avanzan.</p><span>© 2026 Fixelar</span></footer>
+  <div class="contact-float">
+    <div class="contact-float-card" id="contactFloatCard" hidden>
+      <p class="contact-float-eyebrow">Hablemos</p>
+      <h2>¿Cómo quieres contactarnos?</h2>
+      <p>Estamos listos para escuchar tu idea y ayudarte a avanzar.</p>
+      <div class="contact-float-links">
+        <a class="contact-float-link contact-float-whatsapp" href="https://wa.me/573216523359?text=Hola%20Fixelar.%20Quiero%20conocer%20sus%20soluciones%20tecnol%C3%B3gicas%20y%20saber%20c%C3%B3mo%20pueden%20ayudarme%20a%20impulsar%20mi%20negocio.%20%C2%BFPodemos%20hablar%3F" target="_blank" rel="noopener noreferrer">
+          <i class="fa-brands fa-whatsapp" aria-hidden="true"></i><span>Hablar por WhatsApp</span><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+        </a>
+        <a class="contact-float-link contact-float-instagram" href="https://www.instagram.com/fixelar1?mdxt=emkxaTZtb3lrN2gy&utm_source=qr" target="_blank" rel="noopener noreferrer">
+          <i class="fa-brands fa-instagram" aria-hidden="true"></i><span>Ver Instagram</span><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+        </a>
+      </div>
+    </div>
+    <button class="contact-float-button" id="contactFloatButton" type="button" aria-expanded="false" aria-controls="contactFloatCard" aria-label="Abrir opciones de contacto">
+      <img src="../../../Assets/Logos/Flotante.png" alt="Abrir opciones de contacto">
+    </button>
+  </div>
   <div class="access-modal" id="accessModal" hidden>
     <div class="access-backdrop" data-close-access></div>
     <section class="access-dialog" role="dialog" aria-modal="true" aria-labelledby="accessTitle">

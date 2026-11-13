@@ -1,5 +1,6 @@
 "use strict";
 document.addEventListener("DOMContentLoaded", () => {
+  if (!window.location.hash) window.scrollTo({ top: 0, left: 0, behavior: "auto" });
   const canvas = document.querySelector("#techCanvas");
   const context = canvas?.getContext("2d");
   if (canvas && context && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -154,12 +155,26 @@ document.addEventListener("DOMContentLoaded", () => {
   );
   const navSections = [...document.querySelectorAll("main > section[id]")];
   const navLinks = [...document.querySelectorAll(".site-nav a")];
-  const activeSectionObserver = new IntersectionObserver((entries) => {
-    const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-    if (!visible) return;
-    navLinks.forEach((link) => link.classList.toggle("active", link.getAttribute("href") === `#${visible.target.id}`));
-  }, { rootMargin: "-96px 0px -48% 0px", threshold: [0.08, 0.25, 0.5] });
+  let activeNavFrame = 0;
+  const updateActiveNav = () => {
+    activeNavFrame = 0;
+    const headerHeight = document.querySelector(".site-header")?.getBoundingClientRect().height || 78;
+    const marker = headerHeight + Math.min(150, window.innerHeight * .28);
+    const passedSections = navSections.filter((section) => section.getBoundingClientRect().top <= marker);
+    let current = passedSections[passedSections.length - 1] || navSections[0];
+    if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2) current = navSections[navSections.length - 1] || current;
+    const currentHref = `#${current?.id}`;
+    const activeHref = navLinks.some((link) => link.getAttribute("href") === currentHref)
+      ? currentHref
+      : navLinks[navLinks.length - 1]?.getAttribute("href");
+    navLinks.forEach((link) => link.classList.toggle("active", link.getAttribute("href") === activeHref));
+  };
+  const scheduleActiveNav = () => { if (!activeNavFrame) activeNavFrame = window.requestAnimationFrame(updateActiveNav); };
+  window.addEventListener("scroll", scheduleActiveNav, { passive: true });
+  window.addEventListener("resize", scheduleActiveNav, { passive: true });
+  const activeSectionObserver = new IntersectionObserver(scheduleActiveNav, { threshold: [0, 0.1, 0.25, 0.5] });
   navSections.forEach((section) => activeSectionObserver.observe(section));
+  updateActiveNav();
   const revealObserver = new IntersectionObserver((entries) => entries.forEach((entry) => { if (entry.isIntersecting) { entry.target.classList.add("is-visible"); revealObserver.unobserve(entry.target); } }), { threshold: 0.12 });
   document.querySelectorAll(".reveal").forEach((element) => revealObserver.observe(element));
   const canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
@@ -191,4 +206,10 @@ document.addEventListener("DOMContentLoaded", () => {
   document.addEventListener("keydown", (event) => { if (event.key === "Escape" && modal && !modal.hidden) closeModal(); });
   document.querySelector("#googleAccess")?.addEventListener("click", () => { feedback.textContent = "La conexión con Google estará disponible próximamente."; });
   document.querySelector("#emailAccess")?.addEventListener("submit", (event) => { event.preventDefault(); feedback.textContent = "El acceso por correo estará disponible próximamente."; });
+  const contactFloatButton = document.querySelector("#contactFloatButton");
+  const contactFloatCard = document.querySelector("#contactFloatCard");
+  const toggleContactFloat = (open) => { if (!contactFloatButton || !contactFloatCard) return; contactFloatCard.hidden = !open; contactFloatButton.setAttribute("aria-expanded", String(open)); };
+  contactFloatButton?.addEventListener("click", () => toggleContactFloat(contactFloatCard.hidden));
+  document.addEventListener("click", (event) => { if (!event.target.closest(".contact-float")) toggleContactFloat(false); });
+  document.addEventListener("keydown", (event) => { if (event.key === "Escape") toggleContactFloat(false); });
 });
